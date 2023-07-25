@@ -1,0 +1,22 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Query {
+  fetchUsers: String!
+  fetchCafes: String!
+  fetchCoupons: String!
+  fetchFacilities: String!
+  fetchCashTables: String!
+}
+
+type Mutation {
+  signUp(input: CreateUserDto!): String!
+}
+
+input CreateUserDto {
+  userName: String!
+  userNickname: String!
+  userPhone: String!
+  userPassword: String!
+}

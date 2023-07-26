@@ -1,6 +1,7 @@
 import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
+import { Reservation } from 'src/apis/reservations/entities/reservation.entity';
 import { Common } from 'src/common/entities/common.entity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -40,4 +41,7 @@ export class Cafe extends Common {
   @Field(() => Int)
   @Column()
   cafeSeatCount: number;
+
+  @OneToMany(() => Reservation, (res) => res.cafe)
+  res: Reservation[];
 }

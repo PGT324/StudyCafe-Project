@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Todo } from '../todos/entities/todo.entity';
 import { Coupon } from '../coupons/entities/coupon.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { Coupon } from '../coupons/entities/coupon.entity';
   ],
   providers: [
     UsersService,
-    UsersResolver, //
+    UsersResolver,
+    JwtService, //
   ],
 })
 export class UsersModule {}

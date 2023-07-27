@@ -52,6 +52,7 @@ type Query {
 
 type Mutation {
   signUp(input: CreateUserDto!): String!
+  signIn(userPhone: String!, userPassword: String!): String!
   deleteUser(id: String!): String!
   updateUser(input: UpdateUserDto!): User!
   createTodo(id: String!, input: CreateTodosDto!): User!

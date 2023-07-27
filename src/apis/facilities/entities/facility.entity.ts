@@ -14,6 +14,6 @@ export class Facility extends Common {
   @Column()
   facilityName: string;
 
-  @ManyToMany(() => Cafe)
+  @ManyToMany(() => Cafe, { cascade: true })
   cafe: Cafe[];
 }

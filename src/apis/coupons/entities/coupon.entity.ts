@@ -22,7 +22,7 @@ export class Coupon extends Common {
   @OneToMany(() => Reservation, (res) => res.coupon)
   res: Reservation[];
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => User, { cascade: true })
   @Field(() => [User])
   user: User[];
 }

@@ -2,6 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Coupon {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  couponName: String!
+  couponSale: Int!
+  couponCode: Int!
+  user: [User!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Todo {
   id: String!
   createdAt: DateTime!
@@ -9,11 +24,6 @@ type Todo {
   user: User!
   content: String!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type User {
   id: String!
@@ -27,6 +37,7 @@ type User {
   userCash: Int!
   parentPhone: String
   todos: [Todo!]!
+  coupon: [Coupon!]!
 }
 
 type Query {
@@ -44,6 +55,11 @@ type Mutation {
   deleteUser(id: String!): String!
   updateUser(input: UpdateUserDto!): User!
   createTodo(id: String!, input: CreateTodosDto!): User!
+  userGetCoupon(id: String!, code: Float!): String!
+  createCafe(input: CreateCafesDto!): String!
+  addFacility(cafeId: String!, facilityId: String!): String!
+  createCoupon(input: CreateCouponDto!): String!
+  createFacility(input: CreateFacilityDto!): String!
 }
 
 input CreateUserDto {
@@ -63,4 +79,27 @@ input UpdateUserDto {
 
 input CreateTodosDto {
   content: String!
+}
+
+input CreateCafesDto {
+  cafeImage: String!
+  cafeName: String!
+  cafeAddress: String!
+  cafeTime: String!
+  cafeNote: String!
+  cafeLat: Float!
+  cafeLon: Float!
+  cafePhone: String!
+  cafeSeatCount: Int!
+}
+
+input CreateCouponDto {
+  couponName: String!
+  couponSale: Int!
+  couponCode: Int!
+}
+
+input CreateFacilityDto {
+  facilityImage: String!
+  facilityName: String!
 }

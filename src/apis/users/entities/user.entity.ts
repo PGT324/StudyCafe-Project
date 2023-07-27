@@ -1,9 +1,10 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { IsInt, IsString } from 'class-validator';
+import { Coupon } from 'src/apis/coupons/entities/coupon.entity';
 import { Reservation } from 'src/apis/reservations/entities/reservation.entity';
 import { Todo } from 'src/apis/todos/entities/todo.entity';
 import { Common } from 'src/common/entities/common.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -49,4 +50,9 @@ export class User extends Common {
 
   @OneToMany(() => Reservation, (res) => res.user)
   res: Reservation[];
+
+  @ManyToMany(() => Coupon)
+  @JoinTable()
+  @Field(() => [Coupon])
+  coupon: Coupon[];
 }

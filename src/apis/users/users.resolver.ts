@@ -44,4 +44,12 @@ export class UsersResolver {
   ): Promise<User> {
     return this.usersService.createTodo(userId, createTodos);
   }
+
+  @Mutation(() => String)
+  userGetCoupon(
+    @Args('id') id: string,
+    @Args('code') code: number,
+  ): Promise<string> {
+    return this.usersService.userGetCoupon(id, code);
+  }
 }

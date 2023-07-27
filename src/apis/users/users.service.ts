@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Todo } from '../todos/entities/todo.entity';
 import { CreateTodosDto } from '../todos/dto/create-todos.dto';
+import { Coupon } from '../coupons/entities/coupon.entity';
 
 @Injectable({ scope: Scope.DEFAULT })
 export class UsersService {
@@ -13,7 +14,9 @@ export class UsersService {
     @InjectRepository(User)
     private readonly user: Repository<User>,
     @InjectRepository(Todo)
-    private readonly todo: Repository<Todo>, //
+    private readonly todo: Repository<Todo>,
+    @InjectRepository(Coupon)
+    private readonly coupon: Repository<Coupon>, //
   ) {}
   async fetchUsers(): Promise<User[]> {
     const result = await this.user.find({ relations: ['todos'] });
@@ -63,5 +66,25 @@ export class UsersService {
     const result = await this.user.save(user);
     console.log(result);
     return result;
+  }
+
+  async userGetCoupon(id: string, code: number): Promise<string> {
+    const coupon = await this.coupon.findOne({ where: { couponCode: code } });
+    console.log(coupon);
+    const user = await this.user.findOne({ where: { id: id } });
+    console.log(user);
+    const result1 = (user.coupon = [coupon]);
+    console.log(result1);
+    const result = await this.user.save({
+      id: user.id,
+      ...user,
+    });
+
+    console.log(result);
+    if (result) {
+      return '쿠폰등록 성공!';
+    } else {
+      return '쿠폰등록 실패!';
+    }
   }
 }

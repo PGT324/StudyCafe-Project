@@ -3,11 +3,13 @@ import { CafesResolver } from './cafes.resolver';
 import { CafesService } from './cafes.service';
 import { Cafe } from './entities/cafe.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Facility } from '../facilities/entities/facility.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      Cafe, //
+      Cafe,
+      Facility, //
     ]),
   ],
   providers: [CafesResolver, CafesService],

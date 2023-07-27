@@ -1,7 +1,8 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Reservation } from 'src/apis/reservations/entities/reservation.entity';
+import { User } from 'src/apis/users/entities/user.entity';
 import { Common } from 'src/common/entities/common.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -20,4 +21,8 @@ export class Coupon extends Common {
 
   @OneToMany(() => Reservation, (res) => res.coupon)
   res: Reservation[];
+
+  @ManyToMany(() => User)
+  @Field(() => [User])
+  user: User[];
 }

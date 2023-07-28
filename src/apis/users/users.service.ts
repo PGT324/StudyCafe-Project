@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  Scope,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, Scope } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,7 +8,6 @@ import { Todo } from '../todos/entities/todo.entity';
 import { CreateTodosDto } from '../todos/dto/create-todos.dto';
 import { Coupon } from '../coupons/entities/coupon.entity';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
 
 @Injectable({ scope: Scope.DEFAULT })
 export class UsersService {
@@ -23,21 +17,18 @@ export class UsersService {
     @InjectRepository(Todo)
     private readonly todo: Repository<Todo>,
     @InjectRepository(Coupon)
-    private readonly coupon: Repository<Coupon>,
-    private readonly jwtService: JwtService, //
+    private readonly coupon: Repository<Coupon>, //
   ) {}
   async fetchUsers(): Promise<User[]> {
     const result = await this.user.find({ relations: ['todos'] });
-    console.log(result);
     return result;
   }
 
-  async fetchUserById(userId: string): Promise<User> {
+  async fetchUserByPhone(phone: string): Promise<User> {
     const result = await this.user.findOne({
-      where: { id: userId },
+      where: { userPhone: phone },
       relations: ['todos'],
     });
-    console.log(result);
     return result;
   }
 
@@ -47,7 +38,6 @@ export class UsersService {
     const phone = createuserDto.userPhone.replaceAll('-', '');
     createuserDto.userPhone = phone;
     const result = await this.user.save(createuserDto);
-    console.log(result);
     if (result) {
       return '회원가입 성공!';
     } else {
@@ -55,24 +45,8 @@ export class UsersService {
     }
   }
 
-  async signIn(userPhone: string, userPassword: string): Promise<string> {
-    const user = await this.user.findOne({
-      where: { userPhone: userPhone.replaceAll('-', '') },
-    });
-    if (!user) {
-      throw new NotFoundException();
-    }
-    const isPasswordOk = await bcrypt.compare(userPassword, user.userPassword);
-    if (!isPasswordOk) {
-      throw new UnauthorizedException();
-    }
-
-    return '성공!';
-  }
-
   async deleteUser(userId: string): Promise<string> {
     const result = await this.user.delete({ id: userId });
-    console.log(result);
     if (result.affected === 1) {
       return '삭제 성공!';
     } else {
@@ -82,7 +56,6 @@ export class UsersService {
 
   async updateUser(updateUserDto: UpdateUserDto): Promise<User> {
     const result = await this.user.save(updateUserDto);
-    console.log(result);
     return result;
   }
 
@@ -94,7 +67,7 @@ export class UsersService {
     const todo = await this.todo.save(createTodos);
     user.todos.push(todo);
     const result = await this.user.save(user);
-    console.log(result);
+
     return result;
   }
 

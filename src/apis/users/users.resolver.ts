@@ -4,6 +4,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateTodosDto } from '../todos/dto/create-todos.dto';
+import { UseGuards } from '@nestjs/common';
+import { Request, Response } from 'express';
+import { GqlAuthGuard } from 'src/auth/guards/auth.guard';
 
 @Resolver()
 export class UsersResolver {
@@ -11,29 +14,20 @@ export class UsersResolver {
     private readonly usersService: UsersService, //
   ) {}
 
+  @UseGuards(GqlAuthGuard('access'))
   @Query(() => [User])
   fetchUsers(): Promise<User[]> {
     return this.usersService.fetchUsers();
   }
 
   @Query(() => User)
-  fetchUserById(@Args('id') userId: string): Promise<User> {
-    return this.usersService.fetchUserById(userId);
+  fetchUserByPhone(@Args('phone') phone: string): Promise<User> {
+    return this.usersService.fetchUserByPhone(phone);
   }
 
   @Mutation(() => String)
   signUp(@Args('input') createUserDto: CreateUserDto): Promise<string> {
     return this.usersService.signUp(createUserDto);
-  }
-
-  @Mutation(() => String)
-  signIn(
-    @Args('userPhone') userPhone: string,
-    @Args('userPassword') userPassword: string,
-    @Context() context,
-  ): Promise<string> {
-    console.log(context);
-    return this.usersService.signIn(userPhone, userPassword);
   }
 
   @Mutation(() => String)

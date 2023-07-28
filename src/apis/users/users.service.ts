@@ -20,14 +20,14 @@ export class UsersService {
     private readonly coupon: Repository<Coupon>, //
   ) {}
   async fetchUsers(): Promise<User[]> {
-    const result = await this.user.find({ relations: ['todos'] });
+    const result = await this.user.find({ relations: ['todos', 'coupon'] });
     return result;
   }
 
   async fetchUserByPhone(phone: string): Promise<User> {
     const result = await this.user.findOne({
       where: { userPhone: phone },
-      relations: ['todos'],
+      relations: ['todos', 'coupon'],
     });
     return result;
   }
@@ -62,10 +62,9 @@ export class UsersService {
   async createTodo(userId: string, createTodos: CreateTodosDto): Promise<User> {
     const user = await this.user.findOne({
       where: { id: userId },
-      relations: ['todos'],
     });
     const todo = await this.todo.save(createTodos);
-    user.todos.push(todo);
+    user.todos = [todo];
     const result = await this.user.save(user);
 
     return result;
@@ -73,9 +72,7 @@ export class UsersService {
 
   async userGetCoupon(id: string, code: number): Promise<string> {
     const coupon = await this.coupon.findOne({ where: { couponCode: code } });
-    console.log(coupon);
     const user = await this.user.findOne({ where: { id: id } });
-    console.log(user);
     const result1 = (user.coupon = [coupon]);
     console.log(result1);
     const result = await this.user.save({

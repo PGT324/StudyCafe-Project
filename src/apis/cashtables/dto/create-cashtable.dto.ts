@@ -1,6 +1,6 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
-@ObjectType()
+@InputType()
 export class CreateCashTableDto {
   @Field(() => String)
   cashName: string;

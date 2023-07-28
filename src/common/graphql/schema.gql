@@ -40,6 +40,20 @@ type User {
   coupon: [Coupon!]!
 }
 
+type PointTransaction {
+  id: String!
+  impUid: String!
+  amount: Int!
+  status: Status!
+  user: User!
+  createdAt: DateTime!
+}
+
+enum Status {
+  PAYMENT
+  CANCEL
+}
+
 type Query {
   fetchUsers: [User!]!
   fetchUserByPhone(phone: String!): User!
@@ -60,6 +74,8 @@ type Mutation {
   addFacility(cafeId: String!, facilityId: String!): String!
   createCoupon(input: CreateCouponDto!): String!
   createFacility(input: CreateFacilityDto!): String!
+  createCashTable(input: CreateCashTableDto!): String!
+  createPointTransaction(impUid: String!, amount: Int!): PointTransaction!
   login(phone: String!, password: String!): String!
   restoreAccessToken: String!
 }
@@ -104,4 +120,10 @@ input CreateCouponDto {
 input CreateFacilityDto {
   facilityImage: String!
   facilityName: String!
+}
+
+input CreateCashTableDto {
+  cashName: String!
+  cashPrice: Int!
+  cashTime: Int!
 }

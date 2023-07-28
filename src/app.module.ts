@@ -11,6 +11,7 @@ import { CashtablesModule } from './apis/cashtables/cashtables.module';
 import { TodosModule } from './apis/todos/todos.module';
 import { Reservation } from './apis/reservations/entities/reservation.entity';
 import { AuthModule } from './auth/auth.module';
+import { PointsTransactionsModule } from './apis/pointsTransactions/pointsTransactions.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AuthModule } from './auth/auth.module';
     CashtablesModule,
     TodosModule,
     Reservation,
+    PointsTransactionsModule,
     ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

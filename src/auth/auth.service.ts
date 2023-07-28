@@ -40,7 +40,7 @@ export class AuthService {
   getAccessToken(user: User | IAuthUser['user']): string {
     return this.jwtService.sign(
       { sub: user.id },
-      { secret: process.env.SECRET_KEY, expiresIn: '20s' },
+      { secret: process.env.SECRET_KEY, expiresIn: '10m' },
     );
   }
 

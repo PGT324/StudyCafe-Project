@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포인트 결제 페이지</title>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <script>
+        const requestPay = () => {
+            const point = $('#point').val();
+            const IMP = window.IMP; // 생략 가능
+            IMP.init("imp47750274"); // 예: imp00000000a
+
+            IMP.request_pay(
+                {
+                    pg: "tosspay",
+                    pay_method: "card",
+                    merchant_uid: "57008833-33004",
+                    name: "당근 10kg",
+                    amount: `${point}`,
+                    buyer_email: "Iamport@chai.finance",
+                    buyer_name: "포트원 기술지원팀",
+                    buyer_tel: "010-1234-5678",
+                    buyer_addr: "서울특별시 강남구 삼성동",
+                    buyer_postcode: "123-456",
+                },
+                function (rsp) {
+                    console.log(rsp)
+                    if (rsp.success) {
+                        alert("성공");
+                    } else {
+                        alert("실패");
+                    }
+                }
+            );
+        }
+    </script>
+</head>
+
+<body>
+    <select id="point" name="point">
+        <option value="1000">1000</option>
+        <option value="3000">3000</option>
+        <option value="5000">5000</option>
+        <option value="10000">10000</option>
+        <option value="30000">30000</option>
+    </select>
+    <button onclick="requestPay()">결제하기</button>
+</body>
+
+</html>

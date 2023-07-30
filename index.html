@@ -5,10 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>포인트 결제 페이지</title>
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- 포트원 -->
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
     <script>
         const requestPay = () => {
-            const point = $('#point').val();
+
+            const point = document.getElementById('point').value;
+            console.log(point)
             const IMP = window.IMP; // 생략 가능
             IMP.init("imp47750274"); // 예: imp00000000a
 
@@ -16,19 +21,41 @@
                 {
                     pg: "tosspay",
                     pay_method: "card",
-                    merchant_uid: "57008833-33004",
-                    name: "당근 10kg",
+                    merchant_uid: "uid_test2",
+                    name: "노르웨이 회전 의자",
                     amount: `${point}`,
-                    buyer_email: "Iamport@chai.finance",
-                    buyer_name: "포트원 기술지원팀",
-                    buyer_tel: "010-1234-5678",
-                    buyer_addr: "서울특별시 강남구 삼성동",
-                    buyer_postcode: "123-456",
+                    buyer_email: "gildong@gmail.com",
+                    buyer_name: "홍길동",
+                    buyer_tel: "010-4242-4242",
+                    buyer_addr: "서울특별시 강남구 신사동",
+                    buyer_postcode: "01181"
                 },
                 function (rsp) {
-                    console.log(rsp)
                     if (rsp.success) {
                         alert("성공");
+
+                        axios.post(
+                            "http://localhost:8080/graphql",
+                            {
+                                query: `
+                                mutation {
+                                    createPointTransaction(impUid:"${rsp.imp_uid}", amount:${rsp.paid_amount}) {
+                                        id
+                                        impUid
+                                        amount
+                                        status
+                                        createdAt
+                                    }
+                                }
+                                `
+                            },
+                            {
+                                headers: {
+                                    Authorization:
+                                        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YWUwYWI2YS0wNWU3LTQ0OGQtYjA1Mi1jMjc1MmMxMmRjNTgiLCJpYXQiOjE2OTA1NTU2MjIsImV4cCI6MTY5MDU1NjIyMn0.CHGIoruPj7-4elnPDEwIOVih7Lz2Q1_6_2-28XGJskk"
+                                }
+                            }
+                        )
                     } else {
                         alert("실패");
                     }
@@ -39,12 +66,8 @@
 </head>
 
 <body>
-    <select id="point" name="point">
+    <select id="point">
         <option value="1000">1000</option>
-        <option value="3000">3000</option>
-        <option value="5000">5000</option>
-        <option value="10000">10000</option>
-        <option value="30000">30000</option>
     </select>
     <button onclick="requestPay()">결제하기</button>
 </body>

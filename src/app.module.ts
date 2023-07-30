@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UsersModule } from './apis/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -12,6 +11,8 @@ import { TodosModule } from './apis/todos/todos.module';
 import { Reservation } from './apis/reservations/entities/reservation.entity';
 import { AuthModule } from './auth/auth.module';
 import { PointsTransactionsModule } from './apis/pointsTransactions/pointsTransactions.module';
+import { FilesModule } from './apis/files/files.module';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { PointsTransactionsModule } from './apis/pointsTransactions/pointsTransa
     TodosModule,
     Reservation,
     PointsTransactionsModule,
+    FilesModule,
     ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

@@ -76,6 +76,7 @@ type Mutation {
   createFacility(input: CreateFacilityDto!): String!
   createCashTable(input: CreateCashTableDto!): String!
   createPointTransaction(impUid: String!, amount: Int!): PointTransaction!
+  uploadFile(file: Upload!): String!
   login(phone: String!, password: String!): String!
   restoreAccessToken: String!
 }
@@ -127,3 +128,6 @@ input CreateCashTableDto {
   cashPrice: Int!
   cashTime: Int!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload

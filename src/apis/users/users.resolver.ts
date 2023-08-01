@@ -1,11 +1,10 @@
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateTodosDto } from '../todos/dto/create-todos.dto';
 import { UseGuards } from '@nestjs/common';
-import { Request, Response } from 'express';
 import { GqlAuthGuard } from 'src/auth/guards/auth.guard';
 
 @Resolver()

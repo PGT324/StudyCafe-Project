@@ -33,15 +33,16 @@ export class UsersService {
   }
 
   async signUp(createuserDto: CreateUserDto): Promise<string> {
-    const password = await bcrypt.hash(createuserDto.userPassword, 10);
-    createuserDto.userPassword = password;
-    const phone = createuserDto.userPhone.replaceAll('-', '');
-    createuserDto.userPhone = phone;
-    const result = await this.user.save(createuserDto);
-    if (result) {
-      return '회원가입 성공!';
-    } else {
-      return '회원가입 실패!';
+    try {
+      const password = await bcrypt.hash(createuserDto.userPassword, 10);
+      createuserDto.userPassword = password;
+      const phone = createuserDto.userPhone.replaceAll('-', '');
+      createuserDto.userPhone = phone;
+      await this.user.save(createuserDto);
+      return '회원가입 성공';
+    } catch (error) {
+      console.log(error);
+      throw new Error('회원가입 실패!');
     }
   }
 

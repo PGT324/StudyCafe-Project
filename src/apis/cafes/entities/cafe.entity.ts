@@ -48,5 +48,6 @@ export class Cafe extends Common {
 
   @ManyToMany(() => Facility)
   @JoinTable()
+  @Field(() => [Facility])
   facility: Facility[];
 }

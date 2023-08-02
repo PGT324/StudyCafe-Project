@@ -39,6 +39,7 @@ export class UsersResolver {
     return this.usersService.updateUser(updateUserDto);
   }
 
+  // DB에 집어넣을 필요가 없어보임. 프론트엔드에서 처리 가능
   @Mutation(() => User)
   createTodo(
     @Args('id') userId: string,

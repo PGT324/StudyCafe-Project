@@ -8,14 +8,14 @@ import { CreateCouponDto } from './dto/create-coupon.dto';
 export class CouponsService {
   constructor(
     @InjectRepository(Coupon)
-    private readonly coupon: Repository<Coupon>, //
+    private readonly couponRepository: Repository<Coupon>, //
   ) {}
-  fetchCoupons(): string {
-    return 'hi';
+  async fetchCoupons(): Promise<Coupon[]> {
+    return await this.couponRepository.find();
   }
 
   async createCoupon(createCouponDto: CreateCouponDto): Promise<string> {
-    const result = await this.coupon.save(createCouponDto);
+    const result = await this.couponRepository.save(createCouponDto);
     if (result) {
       return '쿠폰 생성 성공!';
     } else {

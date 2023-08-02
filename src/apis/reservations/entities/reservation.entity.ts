@@ -10,18 +10,22 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 @Entity()
 export class Reservation extends Common {
   @ManyToOne(() => User, (user) => user.res, { onDelete: 'CASCADE' })
+  @Field(() => User)
   user: User;
 
   @ManyToOne(() => Cafe, (cafe) => cafe.res, { onDelete: 'CASCADE' })
+  @Field(() => Cafe)
   cafe: Cafe;
 
   @ManyToOne(() => CashTable, (cashTable) => cashTable.res, {
     onDelete: 'CASCADE',
   })
+  @Field(() => CashTable)
   cashTable: CashTable;
 
   @ManyToOne(() => Coupon, (coupon) => coupon.res, { onDelete: 'CASCADE' })
-  coupon: Coupon;
+  @Field(() => Coupon, { nullable: true })
+  coupon?: Coupon;
 
   @Field(() => Int)
   @Column()

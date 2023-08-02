@@ -2,6 +2,44 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Facility {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  facilityImage: String!
+  facilityName: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Cafe {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  cafeImage: String!
+  cafeName: String!
+  cafeAddress: String!
+  cafeTime: String!
+  cafeNote: String!
+  cafeLat: Float!
+  cafeLon: Float!
+  cafePhone: String!
+  cafeSeatCount: Int!
+  facility: [Facility!]!
+}
+
+type CashTable {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  cashName: String!
+  cashPrice: Int!
+  cashTime: Int!
+}
+
 type Coupon {
   id: String!
   createdAt: DateTime!
@@ -11,11 +49,6 @@ type Coupon {
   couponCode: Int!
   user: [User!]!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type Todo {
   id: String!
@@ -57,10 +90,10 @@ enum Status {
 type Query {
   fetchUsers: [User!]!
   fetchUserByPhone(phone: String!): User!
-  fetchCafes: String!
-  fetchCoupons: String!
-  fetchFacilities: String!
-  fetchCashTables: String!
+  fetchCafes: [Cafe!]!
+  fetchCoupons: [Coupon!]!
+  fetchFacilities: [Facility!]!
+  fetchCashTables: [CashTable!]!
   fetchTodosByUserId(id: String!): Todo!
 }
 
@@ -72,6 +105,8 @@ type Mutation {
   userGetCoupon(id: String!, code: Float!): String!
   createCafe(input: CreateCafesDto!): String!
   addFacility(cafeId: String!, facilityId: String!): String!
+  updateCafe(input: UpdateCafesDto!): String!
+  deleteCafe(id: String!): String!
   createCoupon(input: CreateCouponDto!): String!
   createFacility(input: CreateFacilityDto!): String!
   createCashTable(input: CreateCashTableDto!): String!
@@ -110,6 +145,19 @@ input CreateCafesDto {
   cafeLon: Float!
   cafePhone: String!
   cafeSeatCount: Int!
+}
+
+input UpdateCafesDto {
+  cafeImage: String
+  cafeName: String
+  cafeAddress: String
+  cafeTime: String
+  cafeNote: String
+  cafeLat: Float
+  cafeLon: Float
+  cafePhone: String
+  cafeSeatCount: Int
+  id: String!
 }
 
 input CreateCouponDto {

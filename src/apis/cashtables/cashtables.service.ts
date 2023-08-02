@@ -8,14 +8,14 @@ import { CreateCashTableDto } from './dto/create-cashtable.dto';
 export class CashTableService {
   constructor(
     @InjectRepository(CashTable)
-    private readonly cashtable: Repository<CashTable>, //
+    private readonly cashtableRepository: Repository<CashTable>, //
   ) {}
-  fetchCashTables(): string {
-    return 'hi';
+  async fetchCashTables(): Promise<CashTable[]> {
+    return await this.cashtableRepository.find();
   }
 
   async createCashTable(createCashTable: CreateCashTableDto): Promise<string> {
-    const result = await this.cashtable.save(createCashTable);
+    const result = await this.cashtableRepository.save(createCashTable);
     if (result) {
       return '가격표 입력 성공!';
     } else {

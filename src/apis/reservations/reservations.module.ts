@@ -7,7 +7,8 @@ import { Reservation } from './entities/reservation.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      Reservation, //
+      Reservation,
+      //
     ]),
   ],
   providers: [ReservationResolver, ReservationsService],

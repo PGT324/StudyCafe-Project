@@ -34,7 +34,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
       },
     }),
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: process.env.DB_TYPE as 'mysql',
       host: process.env.DB_HOST,
       port: +process.env.DB_PORT,
       username: process.env.DB_USERNAME,
